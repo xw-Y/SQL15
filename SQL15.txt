@@ -1,0 +1,94 @@
+信息系统与数据库技术练习15答题卡
+
+班级：     信息管理一班
+姓名：     余晓伟
+学号：     20190307109
+
+注：请将答案放置在序号下方。*/
+
+（一）
+/*1、创建Wares数据库。*/
+CREATE DATABASE Wares
+/*2、打开Wares数据库。*/
+USE Wares
+/*3、创建Product表，包括Pid、Pname、Specs、Weight、Price、Code、Cid六个字段，
+Pid、Cid、Code为定长字符类型，Pid、Cid长度都为4，Code长度为15，Pname、Specs为变长字符类型、
+长度都为40、不能为空，Weight为Decimal类型、精度16、小数位数2， Price为货币类型，Pid为主键，约束名为pk_Pid。*/
+CREATE TABLE Product
+(
+Pid CHAR(4)  CONSTRAINT pk_Pid PRIMARY KEY,
+Pname VARCHAR(40) NOT NULL,
+Specs VARCHAR(40) NOT NULL,
+Weight Decimal (16[,2]),
+Price MONEY,
+Code CHAR(15),
+Cid CHAR(4)
+)
+/*4、修改Product表，删除主键约束pk_Pid。*/
+ALTER TABLE Product
+DROP CONSTRAINT pk_Pid
+/*5、修改Product表，将Pid定义为主键，约束名为pk_Pid。*/
+ALTER TABLE Product
+ADD CONSTRAINT pk_Pid PRIMARY KEY(Pid)
+/*6、修改Product表，定义Code为唯一键、约束名为ix_Code。 */
+ALTER TABLE Product
+ADD CONSTRAINT ix_Code UNIOUE(Code)
+/*7、使用INSERT语句在Product表中添加以下记录：
+Pid=PD02,Pname=商品2,Specs=EQ2080,Cid=CT01,Code=202006011234567*/
+NSERT Product(Pid,Pname,Specs,Cid,Code,)
+VALUES('PD02','商品2','EQ2080','CT01',202006011234567)
+/*8、使用INSERT语句在Product表中添加以下记录，如果不能执行观察错误信息
+Pid=PD03,Pname=商品3,Specs=EQ2081,Cid=CT02,Code=202006011234567*/
+NSERT Product(Pid,Pname,Specs,Cid,Code,)
+VALUES('PD03','商品3','EQ2081','CT02',202006011234567)
+/*9、创建Category表，包括Cid、Cname、UpdateDate三个字段，
+Cid为定长字符类型，长度为4，Cname为变长字符类型、长度为40、
+不能为空，UpdateDate为日期时间类型，Cid为主键，
+约束名为pk_Cid，Cname为唯一键，约束名为ix_Pname。*/
+CREATE TABLE Category
+(Cid CHAR(4) CONSTRAINT ix_Cid PRIMARY KEY,
+Cname VARCHAR(40) CONSTRAINT ix_Pname UNIQUE,
+UpdateDate DateTime
+)
+/*10、创建Warehouse表，包括Wid、Wname、Area、MaxStock四个字段，
+Wid为定长字符类型，长度为4，Wname为变长字符类型，
+长度为40， Area、MaxStock为Decimal类型、精度都为20、
+小数位数为3。Wid为主键、Area默认值为1234.567。*/
+CREATE TABLE Warehouse
+(Wid CHAR(4) PRIMARY KEY,
+Wname VARCHAR(40),
+Area Decimal(20[,3]) DEFAULT 1234.567, 
+MaxStock Decimal(20[,3])
+)
+/*11、使用INSERT语句在Warehouse表添加以下记录
+Wid=W001 Wname=五金 */
+INSERT  Warehouse(Wid,Wname)
+VALUES('W001','Wname')
+/*12、查询Warehouse表全部字段，并查看结果，理解默认值约束的作用。*/
+SELECT *
+FROM Warehouse
+/*13、修改Category表，将UpdateDate默认值设置为当前日期，约束名为DF_updDate。*/
+ALTER TABLE Category
+ADD CONSTRAINT DF_updDate DEFAULT GETDATE() FOR UpdateDate
+/*14、使用INSERT语句在Category表添加以下记录
+Cid=CT01,Cname=钢板*/
+INSERT PROJECT(Cid,Cname)
+VALUES('CT01','钢板')
+/*15、修改Category表，添加InitDate字段，类型为DateTime，
+默认值为2019-11-5，同时为表中现有各行
+添加的新字段提供默认值(使用With Values选项)*/
+ALTER TABLE Category
+ADD InitDate DateTime DEFAULT '2019-11-5' WITH VALUES
+/*16、查询Category表全部字段，并查看结果，理解默认值约束的作用。*/
+SELECT *
+FROM Category
+/*17、创建一张CP表，包括Cid、Pid、Note三个字段，
+Cid、Pid为定长字符类型，长度都为4， Note为Text类型， 
+Cid、Pid的组合为主键，约束名为pk_CP。*/
+CREATE TABLE CP
+(
+Cid CHAR(4),
+Pid CHAR(4),
+CONSTRAINT pk_CP PRIMARY KEY(Cid,Pid),
+Note Text
+)
